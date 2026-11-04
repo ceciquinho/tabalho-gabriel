@@ -1,0 +1,25 @@
+:root {
+  --ion-color-primary: #3880ff;
+  --ion-color-primary-rgb: 56, 128, 255;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #3171e0;
+  --ion-color-primary-tint: #4c8dff;
+  --ion-background-color: #f7f8fa;
+  --ion-font-family: Arial, Helvetica, sans-serif;
+}
+body { background: var(--ion-background-color); }
+h1 { font-size: 1.5rem; margin: 8px 0 16px; }
+.summary-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.summary-grid ion-card { margin: 4px; }
+.summary-grid ion-card-title { font-size: 1.25rem; }
+.indicators ion-card-title { font-size: 1.1rem; }
+.form-actions { display: flex; gap: 8px; margin-top: 16px; }
+.amount { font-weight: 600; color: var(--ion-color-primary); }
+.login-content { display: flex; align-items: center; justify-content: center; }
+.login-card { width: min(100%, 440px); }
+@media (max-width: 600px) {
+  .summary-grid { grid-template-columns: 1fr; }
+  .summary-grid ion-card-title { font-size: 1.15rem; }
+  ion-segment-button { min-width: 80px; font-size: 0.75rem; }
+}
