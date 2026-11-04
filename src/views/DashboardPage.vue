@@ -14,8 +14,8 @@
   </ion-content></ion-page>
 </template>
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
-import { IonPage, IonContent, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonGrid, IonRow, IonCol, IonSpinner } from '@ionic/vue'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { IonPage, IonContent, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonGrid, IonRow, IonCol, IonSpinner, onIonViewWillEnter } from '@ionic/vue'
 import AppNavigation from '../components/AppNavigation.vue'
 import { listTransactions } from '../services/transactions'
 import { supabase } from '../services/supabase'
@@ -57,8 +57,13 @@ async function refresh() {
   catch (error) { presentToast(error instanceof Error ? error.message : 'Erro ao carregar o dashboard.', 'danger') }
   finally { loading.value = false }
 }
-onMounted(async () => {
-  await refresh()
-  supabase.channel('dashboard-refresh').on('postgres_changes', { event: '*', schema: 'public', table: 'receitas' }, refresh).on('postgres_changes', { event: '*', schema: 'public', table: 'despesas' }, refresh).subscribe()
+let dashboardChannel: ReturnType<typeof supabase.channel> | undefined
+onIonViewWillEnter(refresh)
+onMounted(() => {
+  dashboardChannel = supabase.channel('dashboard-refresh')
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'receitas' }, refresh)
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'despesas' }, refresh)
+    .subscribe()
 })
+onUnmounted(() => { if (dashboardChannel) void supabase.removeChannel(dashboardChannel) })
 </script>
