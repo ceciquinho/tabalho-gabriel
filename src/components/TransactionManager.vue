@@ -3,7 +3,7 @@
     <ion-card-header><ion-card-title>{{ editingId ? 'Editar lançamento' : `Nova ${singular}` }}</ion-card-title></ion-card-header>
     <ion-card-content>
       <form @submit.prevent="submit">
-        <ion-item><ion-input v-model="form.descricao" label="Descrição" label-placement="stacked" required maxlength="120" /></ion-item>
+        <ion-item><ion-input v-model="form.descricao" label="Descrição" label-placement="stacked" required :maxlength="120" /></ion-item>
         <ion-item><ion-input v-model.number="form.valor" label="Valor (R$)" label-placement="stacked" type="number" min="0.01" step="0.01" required /></ion-item>
         <ion-item><ion-select v-model="form.categoria" label="Categoria" label-placement="stacked" interface="popover" required><ion-select-option v-for="category in options" :key="category" :value="category">{{ category }}</ion-select-option></ion-select></ion-item>
         <ion-item><ion-input v-model="form.data" label="Data" label-placement="stacked" type="date" required /></ion-item>
